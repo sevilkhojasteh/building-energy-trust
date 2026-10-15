@@ -218,3 +218,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# raw and processed data are never committed
+data/*
+!data/README.md
+!data/download.py
