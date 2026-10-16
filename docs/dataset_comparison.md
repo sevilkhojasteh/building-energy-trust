@@ -3,9 +3,9 @@
 | | BDG2 | ASHRAE GEP III | CityLearn |
 |---|---|---|---|
 | Official URL | http://kaggle.com/datasets/claytonmiller/buildingdatagenomeproject2. https://github.com/buds-lab/building-data-genome-project-2/wiki| https://www.kaggle.com/competitions/ashrae-energy-prediction/overview| |
-| Licence + where read | CC BY-SA 4.0 (Kaggle "License" box). | Subject to Competition Rules| |
-| Publish code + results? | Yes with attribution (CC BY-SA). Paper link: https://www.nature.com/articles/s41597-020-00712-x | | |
-| Redistribute raw data? | Not needed: repo has a download script only | | |
+| Licence + where read | CC BY-SA 4.0 (Kaggle "License" box). | Kaggle Competition Rules, section 7 (Rules tab). Not an open licence: data is shared only with people who accept the rules| |
+| Publish code + results? | Yes with attribution (CC BY-SA). Paper link: https://www.nature.com/articles/s41597-020-00712-x | Yes. for any purpose| |
+| Redistribute raw data? | Not needed: repo has a download script only | No| |
 | Buildings | 1,636 buildings, 3,053 meters, 19 sites in North America and Europe | over 1,000 buildings at several sites| |
 | Meter types | 8: electricity, chilled water, hot water, steam, gas, water, irrigation, solar | 4: electricity, chilled water, steam, hot water| |
 | Time span | 2016-01-01 to 2017-12-31 (2 full years) | 3 years of hourly data. TODO: check the train.csv dates| |
@@ -22,3 +22,7 @@
 - Dataset and meter type I choose:
 - Why:
 - What I still need to check:
+
+## Differences
+- BDG2 vs ASHRAE in one line: 
+  - both allow research use and publishing results. BDG2 is under an open licence (CC BY-SA) with 2 years of data and 8 meter types. ASHRAE is a subset of the same buildings, under stricter competition rules and with only 4 meter types.
