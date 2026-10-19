@@ -18,3 +18,10 @@
 
 
 The global gradient-boosting model beats the stronger naive baseline for 76.3% ± 0.3% of buildings, with a median improvement of 10.7% ± 0.1% (5 seeds).
+## 2026-10-19: MLP vs gradient boosting, 100 buildings
+- Same 100 buildings (rng seed 0), same train/test rows, 5 seeds each.
+- MLP 7→64→64→1 (sin/cos hour and weekday, lags clipped at 5, inputs standardised on 2016),
+  Adam lr 1e-3, batch 1024, 7 epochs chosen on Nov–Dec 2016 validation.
+- GBM: 79.0% of buildings beat the stronger baseline, median improvement 12.2%.
+- MLP: 73.2 ± 4.3%, median improvement 8.1 ± 1.0%.
+- Conclusion: GBM is better and far more stable across seeds.
