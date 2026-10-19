@@ -223,3 +223,4 @@ __marimo__/
 data/*
 !data/README.md
 !data/download.py
+.DS_Store
