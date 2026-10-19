@@ -25,3 +25,21 @@ The global gradient-boosting model beats the stronger naive baseline for 76.3% �
 - GBM: 79.0% of buildings beat the stronger baseline, median improvement 12.2%.
 - MLP: 73.2 ± 4.3%, median improvement 8.1 ± 1.0%.
 - Conclusion: GBM is better and far more stable across seeds.
+
+## 2026-10-19: MLP vs gradient boosting, all 1,083 buildings (scripts/train_nn.py)
+- Validation (Jan–Oct fit, Nov–Dec 2016 val): loss flat from epoch 1 (0.0455–0.0465);
+  used 5 epochs, the minimum. The choice barely matters.
+- Same rows (hours with every input), 5 seeds each:
+  GBM 78.3 ± 0.3% / 11.5 ± 0.2%; MLP 78.2 ± 1.1% / 11.0 ± 0.4%.
+- The MLP caught up with more data (73.2% on 100 buildings). GBM is still more stable.
+- Figure: both models weak on weekends; the worst buildings are strictly weekly ones.
+
+
+
+
+
+
+## Ideas (not done yet)
+- Weekend/weekly-building weakness (seen in 2017 figure): try building type
+  (primaryspaceusage), a "how weekly is this building" feature, and holidays.
+  Evaluate on Nov–Dec 2016 validation, not 2017.
