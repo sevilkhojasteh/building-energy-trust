@@ -15,3 +15,6 @@
 - Median improvement: fixed 0.099/0.115/0.082, recent 0.103/0.098/0.100
 - Difference changes sign across seeds -> no accuracy difference. Chose recent scale:
   Robust to level shifts (Rat_assembly_Pam -6.5 -> -0.3) and works for Swan (no 2016 data).
+
+
+The global gradient-boosting model beats the stronger naive baseline for 76.3% ± 0.3% of buildings, with a median improvement of 10.7% ± 0.1% (5 seeds).
