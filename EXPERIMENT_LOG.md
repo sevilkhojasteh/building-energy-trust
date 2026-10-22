@@ -34,6 +34,19 @@ The global gradient-boosting model beats the stronger naive baseline for 76.3% �
 - The MLP caught up with more data (73.2% on 100 buildings). GBM is still more stable.
 - Figure: both models weak on weekends; the worst buildings are strictly weekly ones.
 
+## 2026-10-22: M2 first intervals, 100 buildings (notebooks/03_uncertainty.ipynb)
+- Fit Jan–Oct 2016, calibrate Nov–Dec 2016, test 2017; 90% intervals; 1 seed.
+- Overall: quantile GBM 89.1% / relative width 0.446; split conformal 89.5% / 0.511
+  (q_hat 0.255, same width everywhere); CQR 89.0% / 0.444 (q_cqr ≈ 0: nothing to correct).
+- By hour: split conformal 94% at night, 85% at 14:00. Quantile GBM and CQR 88.5–90% at
+  every hour, because their width adapts (0.30 at night, 0.58 at midday).
+- By month: all methods worst in April–May (quantile 88.4%); split conformal swings most.
+  My prediction "summer worst" was wrong.
+- By building: very spread out (0.46–1.00). 16/100 buildings below 80% (quantile, CQR),
+  13/100 (split conformal). My prediction "tightly packed" was wrong.
+- Conclusion: overall coverage looks fine but hides large differences between buildings.
+
+- Per building (same notebook): CQR per building 88.5% / width 0.475 / 4 of 100 buildings < 80% / std 0.047 (best). Split conformal per building 88.4% / 0.506 / 10 / 0.067. Overall coverage dropped ~0.5 points: per-building Nov–Dec calibration is less representative.
 
 
 
