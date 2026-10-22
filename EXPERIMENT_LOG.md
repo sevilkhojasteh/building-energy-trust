@@ -48,6 +48,8 @@ The global gradient-boosting model beats the stronger naive baseline for 76.3% �
 
 - Per building (same notebook): CQR per building 88.5% / width 0.475 / 4 of 100 buildings < 80% / std 0.047 (best). Split conformal per building 88.4% / 0.506 / 10 / 0.067. Overall coverage dropped ~0.5 points: per-building Nov–Dec calibration is less representative.
 
+- ACI (γ=0.05, daily update, on CQR per building): 90.0% / width 0.508 / 0 buildings < 80% (by construction). Wolf: sawtooth (bursts of misses); Hog_science_Max: α up to 0.37 in summer (Nov–Dec calibration too wide).
+
 
 
 
