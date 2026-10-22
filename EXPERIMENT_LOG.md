@@ -50,6 +50,8 @@ The global gradient-boosting model beats the stronger naive baseline for 76.3% �
 
 - ACI (γ=0.05, daily update, on CQR per building): 90.0% / width 0.508 / 0 buildings < 80% (by construction). Wolf: sawtooth (bursts of misses); Hog_science_Max: α up to 0.37 in summer (Nov–Dec calibration too wide).
 
+- ACI by hour 89.1–91.2%, by month 89.3–90.8%. CQR per building drops to 86.6% in June (Nov–Dec calibration doesn't fit summer); ACI fixes it. My prediction "ACI still low at 14:00" was wrong.
+
 
 
 
