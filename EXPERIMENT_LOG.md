@@ -39,6 +39,7 @@ The global gradient-boosting model beats the stronger naive baseline for 76.3% Â
 
 
 
+
 ## Ideas (not done yet)
 - Weekend/weekly-building weakness (seen in 2017 figure): try building type
   (primaryspaceusage), a "how weekly is this building" feature, and holidays.
