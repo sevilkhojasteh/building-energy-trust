@@ -3,12 +3,12 @@
 Calibrated uncertainty, stable explanations, and federated and edge deployment for
 day-ahead building electricity forecasts, on public data.
 
-**Status:** M1 (forecasting) done. M2 (uncertainty) is next.
+**Status:** M1 (forecasting) and M2 (uncertainty) done. M3 (explanations) is next.
 
 | Part | Question | Status |
 |---|---|---|
 | M1 Forecasting | Can a model beat strong naive baselines, per building? | Done |
-| M2 Uncertainty | Are the prediction intervals calibrated? | Next |
+| M2 Uncertainty | Are the prediction intervals calibrated? | Done |
 | M3 Explanations | Why does the model predict this, and is the explanation stable? | Planned |
 | M4 Federated learning | Can sites train one model together without sharing data (simulated)? | Planned |
 
@@ -79,6 +79,61 @@ improvement), not by hand.
   on the building checked.
 - One test year only. The held-out sites (Panther, Swan) are not evaluated yet.
 
+## Results (M2: prediction intervals)
+
+**Question.** A "90% interval" should contain the real value in 90% of hours. Is that true
+for every building, every hour of the day and every season, not only on average?
+
+**Setup.** Gradient boosting, all 1,083 buildings. Fit on January–October 2016, calibrate
+on November–December 2016, test once on 2017. Width is relative to the building's mean load
+over the previous 7 days (0.50 = the interval is half a normal hour's load wide). One seed.
+
+**Methods.**
+- *Split conformal*: point forecast ± one global error size from the calibration months.
+- *Quantile GBM*: two models trained with the pinball loss for the 5% and 95% quantiles.
+- *CQR* (conformalised quantile regression): the quantile interval, corrected on the
+  calibration months.
+- *CQR per building*: the same correction, computed separately for each building.
+- *ACI* (adaptive conformal inference) on top of CQR per building: after each day, the
+  interval for the next day gets wider if the building's interval missed more than 10% of
+  hours, narrower if it missed less.
+
+| Method (90% intervals) | Coverage | Mean width | Buildings below 80% | Worst building | Worst month |
+|---|---|---|---|---|---|
+| Split conformal | 89.9% | 0.535 | 160 | 29% | 88.7% |
+| Quantile GBM | 89.4% | 0.467 | 127 | 61% | 89.0% |
+| CQR | 89.8% | 0.474 | 116 | 61% | 89.4% |
+| CQR per building | 89.4% | 0.500 | 31 | 70% | 88.8% |
+| ACI on CQR per building | 90.0% | 0.524 | 0 | 89% | 89.3% |
+
+![Reliability diagram and coverage by month](results/figures/m2_calibration.png)
+
+**Takeaways**
+
+- **Average coverage hides failures.** Split conformal covers 89.9% overall, but 160 of
+  1,083 buildings get less than 80%. On a 100-building sample it covered 94% at night and
+  only 85% at 14:00, because one fixed width is too wide for quiet hours and too narrow for
+  busy ones.
+- **Each fix addresses one group.** Quantile models adapt the width to the hour.
+  Calibrating per building cuts the buildings below 80% from 116 to 31. ACI fixes the
+  season: calibration on November–December does not represent summer, and per-building CQR
+  drops to about 88.8% from June to September, while ACI stays between 89.3% and 90.5% in
+  every month.
+- **The price is width.** ACI intervals are about 10% wider than CQR (0.524 vs 0.474).
+- **Heavy tails.** On the 100-building sample, 95% intervals were about 4.3 times wider
+  than 50% intervals; a normal distribution would need about 2.9 times.
+
+**Limitations**
+
+- ACI's per-building coverage is close to 90% partly by construction: it steers each
+  building's long-run miss rate. The informative checks are by hour and by month.
+- ACI updates once per day (the forecasts are made at midnight for the next day), so it
+  reacts to a bad day only afterwards. When it asks for more than the largest calibration
+  error, the interval is capped there instead of becoming infinite.
+- Apart from ACI, no method has a coverage guarantee on 2017: the guarantee of split
+  conformal needs calibration and test data to be exchangeable, and time series are not.
+- One seed; measured temperature instead of a weather forecast (as in M1).
+
 ## Reproduce
 
 ```bash
@@ -91,7 +146,8 @@ pip install -r requirements.txt
 2. `python scripts/train_gbm.py`: gradient boosting on all test hours, 5 seeds.
 3. `python scripts/train_nn.py val`: validation run to choose the number of MLP epochs.
 4. `python scripts/train_nn.py`: MLP and gradient boosting on the same rows, 5 seeds each.
-5. `python scripts/plot_forecast_week.py`: the figure above.
+5. `python scripts/plot_forecast_week.py`: the forecast figure.
+6. `python scripts/m2_intervals.py`: M2 intervals, 5 methods × 4 levels, and the M2 figure.
 
 Every experiment, including the ones that didn't work, is recorded in `EXPERIMENT_LOG.md`.
 
