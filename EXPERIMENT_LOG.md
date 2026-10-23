@@ -57,6 +57,18 @@ The global gradient-boosting model beats the stronger naive baseline for 76.3% �
   Width 50% → 95%: about ×4.3 (0.163 → 0.705 for ACI), more than a normal distribution
   would need (×2.9): heavy tails.
 
+## 2026-10-23: M2 on all 1,083 buildings (scripts/m2_intervals.py)
+- Fit Jan–Oct 2016, calibrate Nov–Dec 2016, test 2017; 1 seed; ACI γ = 0.05, daily update.
+- 90% intervals: split conformal 89.9% / width 0.535 / 160 buildings below 80% (worst 0.29);
+  quantile GBM 89.4% / 0.467 / 127; CQR 89.8% / 0.474 / 116; CQR per building 89.4% / 0.500 / 31;
+  ACI 90.0% / 0.524 / 0 (worst building 0.888, worst hour 0.886, worst month 0.893).
+- Same ranking as on 100 buildings. The sample over-estimated the share of bad buildings for
+  global CQR (16% on 100 vs 10.7% on all).
+- Reliability diagram: every method within about 1 point of target at 50/80/90/95%
+  overall; the differences are in the groups (buildings, hours, months).
+- Code fix: the script picks the exact k-th calibration score; the notebook's
+  np.quantile(method="higher") picked one position higher (effect < 0.1 point).
+
   
 
 
