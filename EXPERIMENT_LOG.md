@@ -52,6 +52,13 @@ The global gradient-boosting model beats the stronger naive baseline for 76.3% �
 
 - ACI by hour 89.1–91.2%, by month 89.3–90.8%. CQR per building drops to 86.6% in June (Nov–Dec calibration doesn't fit summer); ACI fixes it. My prediction "ACI still low at 14:00" was wrong.
 
+- Reliability diagram (100 buildings): CQR per building 1.2–1.6 points under target at every
+  level (48.8 / 78.4 / 88.5 / 93.5%); ACI on target at every level (49.9 / 80.0 / 90.0 / 95.0%).
+  Width 50% → 95%: about ×4.3 (0.163 → 0.705 for ACI), more than a normal distribution
+  would need (×2.9): heavy tails.
+
+  
+
 
 
 
