@@ -78,7 +78,8 @@ The global gradient-boosting model beats the stronger naive baseline for 76.3% Â
 - Local: cosine similarity of the 5-number SHAP vector of the same hour between seed pairs
   (median, 5th percentile over hours).
 
-  
+- Step 3.1b (defined before computing): 5 models, each trained on a bootstrap sample of the 100
+  buildings (random_state 0 for the model, bootstrap rng seed 1). Same metrics as above.
 
 
 
