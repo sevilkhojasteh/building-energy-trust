@@ -91,6 +91,16 @@ The global gradient-boosting model beats the stronger naive baseline for 76.3% Â
 - Bootstrap of buildings: Spearman mean 0.940, min 0.900 (hour and temp swap places);
   top-2 always lag24_n and lag168_n; local cosine median 0.9907, p5 0.896; some hours
   negative (explanations pointing in opposite directions).
+- Post-hoc check (added after seeing the results): smallest 20% of explanations have median
+  min-cosine 0.915 vs 0.981 for the rest; hours with a missing lag 0.875. Cosine is partly a
+  metric problem on near-average hours, partly a real problem on missing-lag hours.
+- Second metric (added after seeing the results): total |SHAP difference| per hour between two
+  models. Seeds: median 0.011, p95 0.038. Bootstrap: median 0.030, p95 0.125. For 5% of hours,
+  two equally accurate models' explanations differ by more than the typical forecast error (0.113).
+- Step 3.2a (defined before computing): group SHAP with 3 groups, past load = {lag24_n, lag168_n},
+  calendar = {hour, weekday}, temperature = {temp}, on the same 5 bootstrap models. Same metrics.
+  Hypothesis: grouped explanations are more stable, because the model can split credit between
+  lag24_n and lag168_n differently from one model to the next.
 
 
 
