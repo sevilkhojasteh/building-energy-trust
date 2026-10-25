@@ -81,6 +81,17 @@ The global gradient-boosting model beats the stronger naive baseline for 76.3% �
 - Step 3.1b (defined before computing): 5 models, each trained on a bootstrap sample of the 100
   buildings (random_state 0 for the model, bootstrap rng seed 1). Same metrics as above.
 
+## 2026-10-25: M3 Step 3.1 results (100 buildings, 1,000 explained hours)
+- Both lags missing: 375 of 864,321 test hours (0.04%, 22 buildings), only 600 such training
+  hours. Error there 1.666 vs 0.113 elsewhere (15× worse): the model should not forecast
+  these hours. Known limitation for M1/M2 (those hours are included in train_gbm.py and
+  m2_intervals.py).
+- Seeds 0–4: Spearman 1.000, top-2 10/10, local cosine median 0.9989, p5 0.9855.
+  Weak test: seeds only change the 10% held-out rows.
+- Bootstrap of buildings: Spearman mean 0.940, min 0.900 (hour and temp swap places);
+  top-2 always lag24_n and lag168_n; local cosine median 0.9907, p5 0.896; some hours
+  negative (explanations pointing in opposite directions).
+
 
 
 
