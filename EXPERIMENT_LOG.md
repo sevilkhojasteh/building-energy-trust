@@ -69,6 +69,15 @@ The global gradient-boosting model beats the stronger naive baseline for 76.3% Â
 - Code fix: the script picks the exact k-th calibration score; the notebook's
   np.quantile(method="higher") picked one position higher (effect < 0.1 point).
 
+## 2026-10-23: M3 stability metrics (defined before computing)
+- Explained: 1,000 fixed hours of 2017 (100-building sample), background: 100 fixed hours of 2016.
+- Exact interventional SHAP (all 32 subsets of the 5 inputs).
+- Sources of variation in Step 3.1: random_state 0â€“4 only.
+- Global: Spearman rank correlation of mean |SHAP| between all 10 seed pairs (mean, min);
+  top-2 agreement (share of pairs with the same two most important inputs).
+- Local: cosine similarity of the 5-number SHAP vector of the same hour between seed pairs
+  (median, 5th percentile over hours).
+
   
 
 
