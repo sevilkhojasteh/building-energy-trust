@@ -112,6 +112,17 @@ The global gradient-boosting model beats the stronger naive baseline for 76.3% �
   (Jan–Jun, Mar–Aug, May–Oct, Jul–Dec), random_state 0, all 100 buildings. Same explained hours,
   same background, same metrics (individual and grouped), plus each model's test MAE (normalised).
 
+- Step 3.2b result (6-month training windows of 2016): test MAE 0.1141–0.1153 (equally accurate).
+  Spearman mean 0.950, min 0.900; top-2 6/6; cosine median 0.9916, p5 0.902; total |SHAP difference|
+  median 0.027, p95 0.114. Temperature 0.0105–0.0141 (highest May–Oct), hour 0.0105–0.0174.
+  Training period changes explanations about as much as the building sample, a bit less.
+- Summary of Step 3.1–3.2b (median / p95 total |SHAP difference|): seeds 0.011 / 0.038,
+  training period 0.027 / 0.114, building bootstrap 0.030 / 0.125.
+- Step 3.2c (defined before computing): seed-0 model, same 1,000 hours and background. Add
+  Gaussian noise of 1%, 5% and 10% of each input's robust spread (IQR / 1.349) to lag24_n,
+  lag168_n and temp only. Report median |Δ forecast|, median and p95 total |Δ SHAP|, and the
+  share of "hidden reshuffles" (forecast moves < 0.005 but explanation moves > 0.02).
+
 
 
 
