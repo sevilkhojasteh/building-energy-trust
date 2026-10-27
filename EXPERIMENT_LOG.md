@@ -124,6 +124,13 @@ The global gradient-boosting model beats the stronger naive baseline for 76.3% Â
   share of "hidden reshuffles" (forecast moves < 0.005 but explanation moves > 0.02).
 
 
+## 2026-10-27: M2 follow-up, seasonal calibration (idea added after seeing the summer drop)
+- Calibration: Jan, Apr, Jul, Oct 2016. Training: the rest of 2016 minus 7 days before and after
+  each calibration month. Per-building CQR, 90%, same 100 buildings. Compared with per-building CQR
+  calibrated on Novâ€“Dec: coverage overall, by month, buildings below 80%, width.
+- Note: the training months change too, so model and calibration both differ from the original.
+
+
 
 
 
