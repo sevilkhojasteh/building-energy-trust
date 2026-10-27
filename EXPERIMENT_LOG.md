@@ -103,6 +103,16 @@ The global gradient-boosting model beats the stronger naive baseline for 76.3% �
   lag24_n and lag168_n differently from one model to the next.
 
 
+- Step 3.2a result: past-load share going to lag24_n 0.691–0.698 across bootstrap models
+  (stable). Grouped total |SHAP difference| median 0.023 vs 0.030 individual, p95 0.110 vs 0.125.
+  Grouping helps a little; the hypothesis "instability is mainly credit-splitting between the
+  two lags" is mostly rejected. Temperature (0.009–0.018) and calendar (0.033–0.041) importance
+  still vary between bootstrap samples: they depend on which buildings are in the data.
+- Step 3.2b (defined before computing): 4 models trained on 6-month windows of 2016
+  (Jan–Jun, Mar–Aug, May–Oct, Jul–Dec), random_state 0, all 100 buildings. Same explained hours,
+  same background, same metrics (individual and grouped), plus each model's test MAE (normalised).
+
+
 
 
 
