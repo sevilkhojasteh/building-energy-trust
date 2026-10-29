@@ -130,7 +130,12 @@ The global gradient-boosting model beats the stronger naive baseline for 76.3% �
   calibrated on Nov–Dec: coverage overall, by month, buildings below 80%, width.
 - Note: the training months change too, so model and calibration both differ from the original.
 
-
+- Seasonal calibration result (100 buildings, per-building CQR, 90%): Nov–Dec calibration
+  88.5% / width 0.475 / 4 buildings < 80%; seasonal (Jan/Apr/Jul/Oct, 1-week gaps)
+  89.6% / 0.501 / 0. Summer coverage up from ~87% to ~89.5%; every month 88.6–91.0%.
+  Still slightly under 90% overall. Note: training months and calibration size changed too.
+- Input noise (Step 3.2c, 100 buildings, seed 0): 1/5/10% of robust spread -> median Δforecast
+  0 / 0.004 / 0.009, median total ΔSHAP 0.0004 / 0.008 / 0.017, hidden reshuffles 0.5 / 1.2 / 4.2%.
 
 
 
