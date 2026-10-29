@@ -137,6 +137,23 @@ The global gradient-boosting model beats the stronger naive baseline for 76.3% �
 - Input noise (Step 3.2c, 100 buildings, seed 0): 1/5/10% of robust spread -> median Δforecast
   0 / 0.004 / 0.009, median total ΔSHAP 0.0004 / 0.008 / 0.017, hidden reshuffles 0.5 / 1.2 / 4.2%.
 
+## 2026-10-29: M3 on all 1,083 buildings (scripts/m3_stability.py)
+- Exact interventional SHAP, 2,000 random 2017 hours, background 100 hours of 2016.
+- Pre-registered metrics pass for every source: Spearman of global importances 1.00 (min 1.00),
+  top-2 agreement 100%. Ranking in all 14 models: lag24_n > lag168_n > weekday > hour > temp.
+- Local cosine median / p5: seed 0.999 / 0.988; building bootstrap 0.997 / 0.951;
+  training period 0.994 / 0.923.
+- Total |SHAP difference| per hour (post hoc metric) median / p95: seed 0.011 / 0.024;
+  bootstrap 0.020 / 0.053; period 0.026 / 0.073. Forecast MAE 0.121.
+- Input noise 1/5/10%: median total ΔSHAP 0.0008 / 0.010 / 0.018; hidden reshuffles 0 / 1.1 / 5.0%.
+- Both predictions wrong. (1) The source ranking changed: on 100 buildings the building
+  bootstrap moved explanations most (0.030 / 0.125); on all buildings the training period does.
+  (2) Temperature importance varied 1.2x between bootstrap models (0.0090-0.0111), not 2x.
+- Reading: more buildings average out unusual buildings, but not missing seasons. The period
+  effect stayed the same size (0.027 -> 0.026). Hypothesis for M4: a client with few buildings
+  or one season will get less stable explanations.
+- Caveat: the 100-building and full runs explain different hours, so the comparison is indicative.
+
 
 
 
