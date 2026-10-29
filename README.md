@@ -3,13 +3,13 @@
 Calibrated uncertainty, stable explanations, and federated and edge deployment for
 day-ahead building electricity forecasts, on public data.
 
-**Status:** M1 (forecasting) and M2 (uncertainty) done. M3 (explanations) is next.
+**Status:** M1 (forecasting), M2 (uncertainty) and M3 (explanations) done. M4 (federated learning) is next.
 
 | Part | Question | Status |
 |---|---|---|
 | M1 Forecasting | Can a model beat strong naive baselines, per building? | Done |
 | M2 Uncertainty | Are the prediction intervals calibrated? | Done |
-| M3 Explanations | Why does the model predict this, and is the explanation stable? | Planned |
+| M3 Explanations | Why does the model predict this, and is the explanation stable? | Done |
 | M4 Federated learning | Can sites train one model together without sharing data (simulated)? | Planned |
 
 ## Data
@@ -134,6 +134,67 @@ over the previous 7 days (0.50 = the interval is half a normal hour's load wide)
   conformal needs calibration and test data to be exchangeable, and time series are not.
 - One seed; measured temperature instead of a weather forecast (as in M1).
 
+## Results (M3: stable explanations)
+
+**Question.** SHAP values say how much each input pushed a forecast up or down. If I train
+the model again with a different seed, other buildings or other months, do the explanations
+stay the same? An explanation that changes when nothing important changed is not one to trust.
+
+**Setup.** The gradient boosting model from M1, all 1,083 buildings. Exact interventional
+Shapley values (all 32 subsets of the 5 inputs, background of 100 hours of 2016), computed by
+hand and checked for additivity. Explained hours: 2,000 random hours of 2017. Three sources of
+variation, retraining the model each time:
+
+- *Seed*: 5 seeds, same data.
+- *Building bootstrap*: 5 models, each trained on 1,083 buildings drawn with replacement
+  (about 680 different buildings each).
+- *Training period*: 4 models trained on 6-month windows of 2016 (Jan-Jun, Mar-Aug,
+  May-Oct, Jul-Dec).
+
+Metrics fixed before the experiments: Spearman correlation of the global importances
+(mean |SHAP|), agreement on the top-2 inputs, and the cosine similarity of the SHAP vectors of
+the same hour. Added after the first results: the total |SHAP difference| per hour, in the
+same unit as the forecast.
+
+| Source of variation | Models | Spearman (min) | Top-2 agreement | Cosine median / 5th pct | Total \|SHAP diff\| median / 95th pct |
+|---|---|---|---|---|---|
+| Seed | 5 | 1.00 | 100% | 0.999 / 0.988 | 0.011 / 0.024 |
+| Building bootstrap | 5 | 1.00 | 100% | 0.997 / 0.951 | 0.020 / 0.053 |
+| Training period | 4 | 1.00 | 100% | 0.994 / 0.923 | 0.026 / 0.073 |
+
+For scale: the forecast error (MAE) is 0.121 for every model (0.121-0.123).
+
+![Global importance per model and change of explanations per source](results/figures/m3_stability.png)
+
+**Takeaways**
+
+- **The global story is stable.** All 14 models rank the inputs the same way: yesterday's load
+  (lag24) first, last week's load (lag168) second, then weekday, hour and temperature.
+- **Which months the model sees matters most.** Hour-level explanations move most between
+  training periods: for 5% of hours the explanation changes by more than 0.073, about 60% of
+  the typical forecast error, while the forecasts barely change.
+- **More buildings make explanations more stable, more months do not appear to.** On a
+  100-building sample the building bootstrap was the largest source (0.030 / 0.125) and hour
+  and temperature swapped places. On all buildings it shrinks to 0.020 / 0.053 and the ranking
+  is fixed, while the training-period effect stays about the same (0.027 vs 0.026).
+- **Explanations are locally smooth.** Adding noise of 10% of each input's typical spread to
+  lag24, lag168 and temperature changes the explanation by 0.018 (median); only 5% of hours
+  get a noticeably different explanation with an almost unchanged forecast.
+
+**Limitations**
+
+- Interventional SHAP mixes the hour being explained with background hours, which can create
+  unrealistic inputs (yesterday's load from one hour, last week's from another). It explains
+  the model, not the building.
+- The seed test is weak: seeds only change the 10% of rows held out for early stopping.
+- The 6-month models differ in season and in which half of the year they miss; the
+  experiment does not separate the two.
+- Cosine similarity is unreliable for very small SHAP vectors (hours near the average
+  forecast); this is why the total difference was added, after the first results.
+- Hours where both lags are missing get very poor forecasts (error 1.67 vs 0.11 on a
+  100-building sample, 0.04% of test hours) and the least stable explanations.
+- One background sample of 100 hours; 2,000 explained hours.
+
 ## Reproduce
 
 ```bash
@@ -148,6 +209,7 @@ pip install -r requirements.txt
 4. `python scripts/train_nn.py`: MLP and gradient boosting on the same rows, 5 seeds each.
 5. `python scripts/plot_forecast_week.py`: the forecast figure.
 6. `python scripts/m2_intervals.py`: M2 intervals, 5 methods × 4 levels, and the M2 figure.
+7. `python scripts/m3_stability.py`: M3 explanation stability (seeds, buildings, periods, noise) and the M3 figure.
 
 Every experiment, including the ones that didn't work, is recorded in `EXPERIMENT_LOG.md`.
 
