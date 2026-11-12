@@ -161,6 +161,14 @@ The global gradient-boosting model beats the stronger naive baseline for 76.3% Â
 - Caveat: the 100-building and full runs explain different hours, so the comparison is indicative.
 
 
+## 2026-11-12: CV checks (notebook 06)
+- Unseen sites (Panther 105, Swan 19 buildings; 2017 only): GBM wins 58.9% vs 77.9% on known sites (same scoring); relative MAE 0.091 vs 0.097. Panther gap explained by building mix: Lodging 27 bldgs (15% wins), Parking 8 (12%); without them ~73%.
+- 90% intervals on unseen sites: CQR global Panther 90.0% (10 of 105 below 80%), Swan 95.5%; ACI 90.1% / 90.6%, 0 below 80%. ACI mean width inflated (1.035 on known sites) by heavy-tailed global scores.
+- By type: Office 88.7%, Education 87.1%, Lodging 47.7% (median improvement -0.3%), Warehouse 45.5%.
+- Quality report from raw files: rule gives back exactly the 1,083 buildings. Stuck meters concentrated (Lamb ~610k h, Gator ~190k h). Weather clean.
+- Derived: degree-days per site (Fox hottest, 3,000 CDD); temperature sensitivity median 0.76%/CDD, Public services 4.1%, Lodging negative (summer calendar). Most temperature-driven quarter hardest: 71.2% vs 84.1% wins.
+- Post hoc: type and sensitivity explain results; not used as model inputs.
+
 
 
 ## Ideas (not done yet)
