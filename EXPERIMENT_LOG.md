@@ -34,6 +34,12 @@ The global gradient-boosting model beats the stronger naive baseline for 76.3% �
 - The MLP caught up with more data (73.2% on 100 buildings). GBM is still more stable.
 - Figure: both models weak on weekends; the worst buildings are strictly weekly ones.
 
+## 2026-11-11: CV checks (notebook 06)
+- Unseen sites (Panther, Swan; N buildings, 2017 only): GBM wins X% vs Y% on known sites (same scoring).
+- 90% intervals on unseen sites: CQR global Z%, ACI W%.
+- Results by building type from metadata.csv; quality report per building/site; degree-days and temperature sensitivity.
+- Post hoc: type and sensitivity are used to explain results, not as model inputs.
+
 ## 2026-10-22: M2 first intervals, 100 buildings (notebooks/03_uncertainty.ipynb)
 - Fit Jan–Oct 2016, calibrate Nov–Dec 2016, test 2017; 90% intervals; 1 seed.
 - Overall: quantile GBM 89.1% / relative width 0.446; split conformal 89.5% / 0.511
