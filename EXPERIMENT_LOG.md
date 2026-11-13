@@ -177,7 +177,12 @@ The global gradient-boosting model beats the stronger naive baseline for 76.3% �
 - Caveat: one seed; selection on the scored months favours local-only (12 choices vs 1).
 - Step 4.2: choose on November, report December, 3 seeds; add FedAvg 5 local epochs and FedAvg + fine-tuning.
 
-
+## 2026-11-13: M4 step 4.2 (100 bldgs, 12 sites, choose Nov / score Dec 2016, 3 seeds)
+- Dec MSE mean ± std: centralised 0.0376 ± 0.0007; FedAvg-1 0.0377 ± 0.0002; FedAvg-5 0.0381 ± 0.0014;
+  local only 0.0381 ± 0.0005; FedAvg + fine-tuning 0.0371 ± 0.0003 (−1.5% vs centralised).
+- Fair selection removed local-only's step-4.1 advantage. FedAvg-5 best after 3-5 rounds (vs 14-26)
+  but less stable (client drift). Fine-tuning beats local for 8/12 sites; Bull keeps 0 epochs; Bear worse.
+- Predictions: 2 of 3 right (5 local epochs expected better, was worse).
 
 ## Ideas (not done yet)
 - Weekend/weekly-building weakness (seen in 2017 figure): try building type
