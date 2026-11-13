@@ -169,6 +169,14 @@ The global gradient-boosting model beats the stronger naive baseline for 76.3% Â
 - Derived: degree-days per site (Fox hottest, 3,000 CDD); temperature sensitivity median 0.76%/CDD, Public services 4.1%, Lodging negative (summer calendar). Most temperature-driven quarter hardest: 71.2% vs 84.1% wins.
 - Post hoc: type and sensitivity explain results; not used as model inputs.
 
+## 2026-11-13: M4 step 4.1 (100 buildings, 12 sites, 2016 validation, seed 0)
+- Federated standardisation = pooled (max diff 5e-12).
+- Validation MSE (best epoch/round chosen on the same months): local only 0.0353, centralised 0.0361
+  (epoch 8), FedAvg 0.0374 (round 14, plateau from round 5). FedAvg worse than centralised for 10/12
+  sites; better for Rat (largest, 23% of weight) and Eagle. Worst hit: Moose +27%, Robin +26%.
+- Caveat: one seed; selection on the scored months favours local-only (12 choices vs 1).
+- Step 4.2: choose on November, report December, 3 seeds; add FedAvg 5 local epochs and FedAvg + fine-tuning.
+
 
 
 ## Ideas (not done yet)
